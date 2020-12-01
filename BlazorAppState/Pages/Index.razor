@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<h2>@AppStateProvider.AppState.MyProperty</h2>
+<button @onclick="UpdateState">update message</button>
+
+@code{
+    [CascadingParameter]
+    public CascadingAppStateProvider AppStateProvider { get; set; }
+
+    protected override void OnInitialized()
+    {
+    }
+
+    void UpdateState()
+    {
+        AppStateProvider.AppState.UpdateMyProperty(this, $"index set this on {DateTime.Now}");
+    }
+}
