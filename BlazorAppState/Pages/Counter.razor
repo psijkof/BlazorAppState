@@ -27,7 +27,8 @@
             Console.WriteLine($"--> source {source} with hash {source.GetHashCode()}");
             Console.WriteLine($"      this {this} with hash {this.GetHashCode()}");
             Console.WriteLine($"{source.GetType().Name} has updated. Hash {source.GetHashCode()}. Done by {this.GetHashCode()}");
-            AppStateProvider.AppState.UpdateMyProperty(this, string.Concat(property, $" touched by {this.GetHashCode()}"));
+            var oldValue = AppStateProvider.AppState.MyProperty;
+            AppStateProvider.AppState.UpdateMyProperty(this, string.Concat(oldValue, $" touched by {this.GetHashCode()}"));
         }
     }
 
