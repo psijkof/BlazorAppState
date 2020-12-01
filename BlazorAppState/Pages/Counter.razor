@@ -17,10 +17,10 @@
     protected override void OnInitialized()
     {
         Console.WriteLine($"{this.GetType().Name} with hash {this.GetHashCode()} created.");
-        AppStateProvider.AppState.StateChanged += async (source, property) => await StateChange(source, property);
+        AppStateProvider.AppState.OnStateChanged += new AppState.DelegateHandleStateChange(StateChange);
     }
 
-    private async Task StateChange(object source, string property)
+    private void StateChange(object source, string property)
     {
         if (!ReferenceEquals(source, this) && this.GetType().Name != source.GetType().Name && nameof(AppState.MyProperty) == property)
         {
@@ -41,6 +41,6 @@
     void IDisposable.Dispose()
     {
         Console.WriteLine($"dispose {this.GetHashCode()}");
-        AppStateProvider.AppState.StateChanged -= async (source, property) => await StateChange(source, property);
+        AppStateProvider.AppState.OnStateChanged -= new AppState.DelegateHandleStateChange(StateChange);
     }
 }
