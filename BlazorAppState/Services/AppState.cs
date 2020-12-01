@@ -11,10 +11,7 @@ namespace BlazorAppState.Services
 
         private void NotifyStateChanged(object source, string property)
         {
-            if (OnStateChanged != null)
-            {
-                OnStateChanged(source, property);
-            }
+            OnStateChanged?.Invoke(source, property);
         }
 
         public string MyProperty { get; private set; } = $"initialized on {DateTime.Now} by {nameof(AppState)}";

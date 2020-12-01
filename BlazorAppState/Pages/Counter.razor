@@ -30,7 +30,6 @@
             var oldValue = AppStateProvider.AppState.MyProperty;
             AppStateProvider.AppState.UpdateMyProperty(this, string.Concat(oldValue, $" touched by {this.GetHashCode()}"));
             StateHasChanged();
-
         }
     }
 
