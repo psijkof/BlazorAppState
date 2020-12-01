@@ -3,16 +3,13 @@
 
 <h1>Counter</h1>
 
-<p>Current count: @currentCount</p>
+<p>Current count: @AppStateProvider.AppState.MyProperty2</p>
 <p>@AppStateProvider.AppState.MyProperty</p>
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     [CascadingParameter]
     public CascadingAppStateProvider AppStateProvider { get; set; }
-
-    private int currentCount = 0;
-
 
     protected override void OnInitialized()
     {
@@ -36,7 +33,7 @@
     private void IncrementCount()
     {
         AppStateProvider.AppState.UpdateMyProperty(this, $"updated by counter component with hash {this.GetHashCode()}");
-        currentCount++;
+        AppStateProvider.AppState.UpdateMyProperty2(this, AppStateProvider.AppState.MyProperty2 + 1);
     }
 
     void IDisposable.Dispose()
