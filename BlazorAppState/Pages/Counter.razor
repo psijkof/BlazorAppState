@@ -22,13 +22,15 @@
 
     private void StateChange(object source, string property)
     {
-        if (!ReferenceEquals(source, this) && this.GetType().Name != source.GetType().Name && nameof(AppState.MyProperty) == property)
+        if (source != this && nameof(AppState.MyProperty) == property)
         {
             Console.WriteLine($"--> source {source} with hash {source.GetHashCode()}");
             Console.WriteLine($"      this {this} with hash {this.GetHashCode()}");
             Console.WriteLine($"{source.GetType().Name} has updated. Hash {source.GetHashCode()}. Done by {this.GetHashCode()}");
             var oldValue = AppStateProvider.AppState.MyProperty;
             AppStateProvider.AppState.UpdateMyProperty(this, string.Concat(oldValue, $" touched by {this.GetHashCode()}"));
+            StateHasChanged();
+
         }
     }
 
