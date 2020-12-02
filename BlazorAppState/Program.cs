@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Fluxor;
 
 namespace BlazorAppState
 {
@@ -18,6 +19,11 @@ namespace BlazorAppState
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            var currentAssembly = typeof(Program).Assembly;
+            builder.Services.AddFluxor(options => options
+                .ScanAssemblies(currentAssembly)
+                .UseReduxDevTools());
 
             await builder.Build().RunAsync();
         }
