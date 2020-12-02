@@ -1,40 +1,13 @@
 ﻿@page "/"
-@implements IDisposable
 
 <h1>State in Blazor</h1>
 
 
-<h2>@AppStateProvider.AppState.MyProperty</h2>
-<button @onclick="UpdateState">update message</button>
-
+<Counter />
 <Counter />
 
-
 @code{
-    [CascadingParameter]
-    public CascadingAppStateProvider AppStateProvider { get; set; }
 
-    protected override void OnInitialized()
-    {
-        AppStateProvider.AppState.OnStateChanged += new AppState.DelegateHandleStateChange(StateChange);
-    }
 
-    private void StateChange(object source, string property)
-    {
-        if (source != this)
-        {
-            Console.WriteLine($"{this} noticed that {property} was changed by {source}");
-            StateHasChanged();
-        }
-    }
 
-    void UpdateState()
-    {
-        AppStateProvider.AppState.UpdateMyProperty(this, $"index set this on {DateTime.Now}");
-    }
-
-    void IDisposable.Dispose()
-    {
-        AppStateProvider.AppState.OnStateChanged -= new AppState.DelegateHandleStateChange(StateChange);
-    }
 }

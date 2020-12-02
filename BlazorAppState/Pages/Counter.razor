@@ -1,44 +1,21 @@
 ﻿@page "/counter"
-@implements IDisposable
-
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@using Fluxor
+@using BlazorAppState.Store.CounterUseCase
+@inject IState<CounterState> CounterState
+@inject IDispatcher Dispatcher 
+ 
 <h1>Counter</h1>
 
-<p>Current count: @AppStateProvider.AppState.MyProperty2</p>
-<p>@AppStateProvider.AppState.MyProperty</p>
+<p>Current count: @CounterState.Value.ClickCount</p>
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    [CascadingParameter]
-    public CascadingAppStateProvider AppStateProvider { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Console.WriteLine($"{this.GetType().Name} with hash {this.GetHashCode()} created.");
-        AppStateProvider.AppState.OnStateChanged += new AppState.DelegateHandleStateChange(StateChange);
-    }
-
-    private void StateChange(object source, string property)
-    {
-        if (source != this && nameof(AppState.MyProperty) == property)
-        {
-            Console.WriteLine($"--> source {source} with hash {source.GetHashCode()}");
-            Console.WriteLine($"      this {this} with hash {this.GetHashCode()}");
-            Console.WriteLine($"{source.GetType().Name} has updated. Hash {source.GetHashCode()}. Done by {this.GetHashCode()}");
-            var oldValue = AppStateProvider.AppState.MyProperty;
-            AppStateProvider.AppState.UpdateMyProperty(this, string.Concat(oldValue, $" touched by {this.GetHashCode()}"));
-            StateHasChanged();
-        }
-    }
 
     private void IncrementCount()
     {
-        AppStateProvider.AppState.UpdateMyProperty(this, $"updated by counter component with hash {this.GetHashCode()}");
-        AppStateProvider.AppState.UpdateMyProperty2(this, AppStateProvider.AppState.MyProperty2 + 1);
+        var action = new IncrementCounterAction();
+        Dispatcher.Dispatch(action);
     }
 
-    void IDisposable.Dispose()
-    {
-        Console.WriteLine($"dispose {this.GetHashCode()}");
-        AppStateProvider.AppState.OnStateChanged -= new AppState.DelegateHandleStateChange(StateChange);
-    }
 }
