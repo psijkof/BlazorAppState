@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BlazorAppState.Store.CounterUseCase
 {
-    public static class Reducers
+    public static class CounterReducers
     {
         [ReducerMethod]
         public static CounterState ReduceIncrementCounterAction(CounterState state, IncrementCounterAction action)
-            => new CounterState(clickCount: state.ClickCount + 1);
+            => new(clickCount: state.ClickCount + 1);
     }
 }
