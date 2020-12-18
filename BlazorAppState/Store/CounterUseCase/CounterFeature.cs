@@ -2,7 +2,7 @@
 
 namespace BlazorAppState.Store.CounterUseCase
 {
-    public class Feature : Feature<CounterState>
+    public class CounterFeature : Feature<CounterState>
     {
         public override string GetName() => "Counter";
 
